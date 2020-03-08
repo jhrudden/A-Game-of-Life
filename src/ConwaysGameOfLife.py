@@ -4,11 +4,11 @@ import random
 
 
 class GameOfLife:
-	def __init__(self):
-		self.cols = 100
-		self.rows = 100
-		self.game_size = 600
-		self.cell = self.game_size / self.rows
+	def __init__(self, dimensions = 200, game_size = 600, max_fps = 20):
+		self.cols = dimensions
+		self.rows = dimensions
+		self.game_size = game_size
+		self.cell = game_size / dimensions
 		self.grids = self.init_grids()
 		self.active_grid = self.init_active_grid(self.grids[0])
 		self.inactive_grid = self.grids[1]
@@ -23,7 +23,7 @@ class GameOfLife:
 
 		self.game_state = True
 
-		self.max_fps = 40
+		self.max_fps = max_fps
 
 
 	def init_grids(self):

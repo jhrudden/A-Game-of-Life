@@ -4,7 +4,7 @@ import random
 
 
 class GameOfLife:
-	def __init__(self, dimensions = 200, game_size = 600, max_fps = 20):
+	def __init__(self, dimensions = 200, game_size = 1000, max_fps = 20):
 		self.cols = dimensions
 		self.rows = dimensions
 		self.game_size = game_size
@@ -27,18 +27,29 @@ class GameOfLife:
 
 
 	def init_grids(self):
+		# initializes a 2d array that represents both the active 
+		# and inactive boards
 		grids = []
 
+		# intialize a single grid
 		grid = []
 
+		# iterate down the number of rows
 		for i in range(self.rows):
+			# initialize row array
 			row = []
+			# iterate through the number of columns
 			for j in range(self.cols):
+				# append a 0 to row array per column
 				row.append(0)
 
+			# once a row has been finished apppend it to 
+			# the initialized grid
 			grid.append(row)
 
 
+		# append 2 2d arrays to our grids inorder to form our final
+		# initialized grid repsenting both the active and passive grid
 		grids.append(grid)
 		grids.append(grid)
 
@@ -48,6 +59,7 @@ class GameOfLife:
 		# go down the active grid and do a random choice between 1 or 0 and set cell to that value
 		for i in range (self.rows):
 			for j in range (self.cols):
+				# for each index in each col in each row choose either 1 or 0
 				grid[i][j] = random.choice([1,0])
 		return grid
 
@@ -110,13 +122,19 @@ class GameOfLife:
 		# if an item at the given index in the inactive grid exists then return it
 		# else return 0
 		id = 0
+
+		# if either the row or col index is negative return zero in order to
+		# not wrap around the array
 		if row_index < 0 or col_index < 0:
 			return id
 		try:
+			# try grabbing an item at the given index for col and row
 			id = self.active_grid[row_index][col_index]
 			pass
 
+		# if grabbing an item at this index is impossible via IndexError
 		except IndexError:
+		# neighbor doesn't exist so return 0
 			return 0;
 
 		return id
@@ -137,6 +155,7 @@ class GameOfLife:
 			for j in range(self.cols):
 				color = self.dead_color
 				if self.active_grid[i][j] == 1:
+					# if we are alive make the color to draw green
 					color = self.alive_color
 
 				pygame.draw.rect(self.scene, color, 
@@ -147,6 +166,7 @@ class GameOfLife:
 
 
 	def game(self):
+		# handles running the simulation until some closes the window
 		clock = pygame.time.Clock()
 		while self.game_state:
 			for event in pygame.event.get():
